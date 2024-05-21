@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 module "asset-feed-project" {
   source         = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/project"
   name           = var.project_id
@@ -33,6 +34,15 @@ module "asset-feed-project" {
     "cloudbilling.googleapis.com",
     "securitycenter.googleapis.com"
   ]
+}
+
+ #Create the SCC Finding Source
+
+ resource "google_scc_source" "app_engine_iap_finding_source" {
+  display_name = "app_engine_iap_finding_source" #DO NOT CHANGE
+  organization = var.organization_id
+  description  = "This is an App Engine IaP source that checks if IaP is not enabled for the App Engine service"
+  depends_on = [ module.asset-feed-project ]
 }
 
 module "asset-feed-cf-service-account" {
@@ -135,8 +145,3 @@ module "asset-feed-cf" {
   depends_on = [ random_pet.random ]
 }
 
-resource "google_scc_source" "app_engine_iap_finding_source" {
-  display_name = "app_engine_iap_finding_source" #DO NOT CHANGE
-  organization = var.organization_id
-  description  = "This is an App Engine IaP source that checks if IaP is not enabled for the App Engine service"
-}
