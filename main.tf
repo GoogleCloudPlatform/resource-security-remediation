@@ -92,6 +92,7 @@ module "asset-feed-pubsub" {
   subscriptions = {
     "${var.name}-default" = {}
   }
+  #IAM Block only required when the asset feed is set at project level
   iam = {
     "roles/pubsub.publisher" = [
         "serviceAccount:${module.asset-feed-project.service_accounts.robots.cloudasset}",
