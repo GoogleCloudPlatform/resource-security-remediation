@@ -104,7 +104,7 @@ module "asset-feed-pubsub" {
   depends_on = [ module.sandbox-folder-iam ]
 }
 
-# Create a feed that sends notifications about instance  updates.
+# Create a feed that sends notifications about App Engine updates at both Application and Service level.
 resource "google_cloud_asset_folder_feed" "app_engine_feed" {
   billing_project     = var.project_id
   folder       = var.folder_id
