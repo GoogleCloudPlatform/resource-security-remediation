@@ -135,9 +135,8 @@ module "asset-feed-cf" {
   depends_on = [ random_pet.random ]
 }
 
-resource "google_scc_source" "app_engine_iap_findng_source" {
-  display_name = "app_engine_iap_findng_source" #DO NOT CHANGE
+resource "google_scc_source" "app_engine_iap_finding_source" {
+  display_name = "app_engine_iap_finding_source" #DO NOT CHANGE
   organization = var.organization_id
   description  = "This is an App Engine IaP source that checks if IaP is not enabled for the App Engine service"
-  depends_on = [ module.asset-feed-cf ]
 }
