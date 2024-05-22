@@ -36,6 +36,14 @@ module "asset-feed-project" {
   ]
 }
 
+# Create the IAM Service Account for the Asset Feed in case it is not created automatically
+
+resource "google_project_service_identity" "hc_sa" {
+  provider = google-beta
+  project = var.project_id
+  service = "cloudasset.googleapis.com"
+}
+
  #Create the SCC Finding Source
 
  resource "google_scc_source" "app_engine_iap_finding_source" {
