@@ -38,10 +38,11 @@ module "asset-feed-project" {
 
 # Create the IAM Service Account for the Asset Feed in case it is not created automatically
 
-resource "google_project_service_identity" "hc_sa" {
+resource "google_project_service_identity" "cloud_asset_service_account" {
   provider = google-beta
   project = var.project_id
   service = "cloudasset.googleapis.com"
+  depends_on = [ module.asset-feed-project ]
 }
 
  #Create the SCC Finding Source
@@ -50,7 +51,7 @@ resource "google_project_service_identity" "hc_sa" {
   display_name = "app_engine_iap_finding_source" #DO NOT CHANGE
   organization = var.organization_id
   description  = "This is an App Engine IaP source that checks if IaP is not enabled for the App Engine service"
-  depends_on = [ module.asset-feed-project ]
+  depends_on = [ google_project_service_identity.cloud_asset_service_account ]
 }
 
 module "asset-feed-cf-service-account" {
