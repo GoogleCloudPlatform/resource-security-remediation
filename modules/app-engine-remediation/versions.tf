@@ -14,10 +14,12 @@ terraform {
 
 provider "google" {
   # Configuration options
-
+  user_project_override = true
+  billing_project = var.project_id
 }
 
 provider "google-beta" {
   # Configuration options
-
+  user_project_override = true
+  billing_project = var.project_id
 }

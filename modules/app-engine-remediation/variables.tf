@@ -1,3 +1,8 @@
+variable "bundle_path" {
+  description = "Path used to write the intermediate Cloud Function code bundle."
+  type        = string
+  default     = "./bundle.zip"
+}
 
 variable "name" {
   description = "Arbitrary string used to name created resources."
@@ -21,6 +26,12 @@ variable "region" {
   default     = "us-central1"
 }
 
+variable "project_create" {
+  description = "Create project instead of using an existing one."
+  type        = bool
+  default     = false
+}
+
 variable "folder_id" {
   description = "value of the folder id"
   type = string
@@ -31,3 +42,4 @@ variable "source_dir" {
   type = string
   default = "./cf"
 }
+

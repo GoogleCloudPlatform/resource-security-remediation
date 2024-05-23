@@ -75,7 +75,7 @@ def _create_custom_finding(appengine):
     event_time = datetime.datetime.now(tz=datetime.timezone.utc)
     parent = next(item for item in appengine['asset']['ancestors'] if item.startswith('organizations/'))
     for i, source in enumerate(client.list_sources(request={"parent": parent})):
-       if source.display_name == "app_engine_iap_finding_source":
+       if source.display_name == "app_engine_iap_findng_source":
           source_name = source.name
     app_id = appengine['asset']['resource']['data']['id']
     finding_id = re.sub(r'[^\w\s]', '', app_id)
@@ -102,7 +102,7 @@ def _update_custom_finding_inactive(appengine):
     client = securitycenter.SecurityCenterClient()
     parent = next(item for item in appengine['asset']['ancestors'] if item.startswith('organizations/'))
     for i, source in enumerate(client.list_sources(request={"parent": parent})):
-       if source.display_name == "app_engine_iap_finding_source":
+       if source.display_name == "app_engine_iap_findng_source":
           source_name = source.name
     app_id = appengine['asset']['resource']['data']['id']
     finding_id = re.sub(r'[^\w\s]', '', app_id)
@@ -125,7 +125,7 @@ def _update_custom_finding_active(appengine):
     )
     parent = next(item for item in appengine['asset']['ancestors'] if item.startswith('organizations/'))
     for i, source in enumerate(client.list_sources(request={"parent": parent})):
-       if source.display_name == "app_engine_iap_finding_source":
+       if source.display_name == "app_engine_iap_findng_source":
           source_name = source.name
     app_id = appengine['asset']['resource']['data']['id']
     finding_id = re.sub(r'[^\w\s]', '', app_id)
