@@ -36,37 +36,17 @@ module "asset-feed-project" {
 # Create the IAM Service Account for the Asset Feed in case it is not created automatically
 
 resource "google_project_service_identity" "cloud_asset_service_account" {
-  provider = google-beta
-  project = var.project_id
-  service = "cloudasset.googleapis.com"
-  depends_on = [ module.asset-feed-project ]
+  provider   = google-beta
+  project    = var.project_id
+  service    = "cloudasset.googleapis.com"
+  depends_on = [module.asset-feed-project]
 }
 
 module "asset-feed-cf-service-account" {
   source     = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/iam-service-account"
   project_id = var.project_id
   name       = "${var.name}-cf"
-  depends_on = [ module.asset-feed-project ]
-}
-
-module "sandbox-folder-iam" {
-  source  = "terraform-google-modules/iam/google//modules/folders_iam"
-  folders = ["folders/${var.folder_id}"]
-
-  mode = "additive"
-
-  bindings = {
-    "roles/appengine.appAdmin" = [
-      "serviceAccount:${module.asset-feed-cf-service-account.email}",
-    ],
-    "roles/pubsub.publisher" = [
-        "serviceAccount:${module.asset-feed-project.service_accounts.robots.cloudasset}", # Esnure this is the quota project, as Terraform using a quota project to use the service account permissions to subscribe the topic to Pub/Sub.
-    ]
-    "roles/cloudasset.serviceAgent" = [
-        "serviceAccount:${module.asset-feed-project.service_accounts.robots.cloudasset}", # Esnure this is the quota project, as Terraform using a quota project to use the service account permissions to subscribe the topic to Pub/Sub.
-    ]
-  }
-  depends_on = [ module.asset-feed-cf-service-account ]
+  depends_on = [module.asset-feed-project]
 }
 
 module "organization-iam-bindings" {
@@ -79,7 +59,26 @@ module "organization-iam-bindings" {
       "serviceAccount:${module.asset-feed-cf-service-account.email}",
     ]
   }
-  depends_on = [module.sandbox-folder-iam]
+  depends_on = [module.asset-feed-cf-service-account]
+}
+
+module "project-iam-bindings" {
+  source   = "terraform-google-modules/iam/google//modules/projects_iam"
+  projects = [var.project_id]
+  mode     = "additive"
+
+  bindings = {
+    "roles/appengine.appAdmin" = [
+      "serviceAccount:${module.asset-feed-cf-service-account.email}",
+    ],
+    "roles/pubsub.publisher" = [
+      "serviceAccount:${module.asset-feed-project.service_accounts.robots.cloudasset}", # Esnure this is the quota project, as Terraform using a quota project to use the service account permissions to subscribe the topic to Pub/Sub.
+    ]
+    "roles/cloudasset.serviceAgent" = [
+      "serviceAccount:${module.asset-feed-project.service_accounts.robots.cloudasset}", # Esnure this is the quota project, as Terraform using a quota project to use the service account permissions to subscribe the topic to Pub/Sub.
+    ]
+  }
+  depends_on = [module.organization-iam-bindings]
 }
 
 module "asset-feed-pubsub" {
@@ -91,34 +90,34 @@ module "asset-feed-pubsub" {
   }
   iam = {
     "roles/pubsub.publisher" = [
-        "serviceAccount:${module.asset-feed-project.service_accounts.robots.cloudasset}",
+      "serviceAccount:${module.asset-feed-project.service_accounts.robots.cloudasset}",
     ]
     "roles/cloudasset.serviceAgent" = [
-        "serviceAccount:${module.asset-feed-project.service_accounts.robots.cloudasset}",
+      "serviceAccount:${module.asset-feed-project.service_accounts.robots.cloudasset}",
     ]
   }
-  depends_on = [ module.sandbox-folder-iam ]
+  depends_on = [module.project-iam-bindings]
 }
 
 # Create a feed that sends notifications about instance  updates.
-resource "google_cloud_asset_folder_feed" "app_engine_feed" {
-  billing_project     = var.project_id
-  folder       = var.folder_id
-  feed_id      = var.name
-  content_type = "RESOURCE"
-  asset_types  = ["appengine.googleapis.com/Application","appengine.googleapis.com/Service"]
+resource "google_cloud_asset_project_feed" "app_engine_feed" {
+  billing_project = var.project_id
+  project         = var.project_id
+  feed_id         = var.name
+  content_type    = "RESOURCE"
+  asset_types     = ["appengine.googleapis.com/Application", "appengine.googleapis.com/Service"]
 
   feed_output_config {
     pubsub_destination {
       topic = module.asset-feed-pubsub.topic.id
     }
   }
-  depends_on = [ module.asset-feed-pubsub ]
+  depends_on = [module.asset-feed-pubsub]
 }
 
 resource "random_pet" "random" {
-  length = 1
-  depends_on = [ google_cloud_asset_folder_feed.app_engine_feed ]
+  length     = 1
+  depends_on = [google_cloud_asset_project_feed.app_engine_feed]
 }
 
 module "asset-feed-cf" {
@@ -139,12 +138,12 @@ module "asset-feed-cf" {
     event    = "google.pubsub.topic.publish"
     resource = module.asset-feed-pubsub.topic.id
   }
-  depends_on = [ random_pet.random ]
+  depends_on = [random_pet.random]
 }
 
-resource "google_scc_source" "app_engine_iap_findng_source" {
-  display_name = "app_engine_iap_findng_source" #DO NOT CHANGE
+resource "google_scc_source" "app_engine_iap_finding_source" {
+  display_name = "app_engine_iap_finding_source" #DO NOT CHANGE
   organization = var.organization_id
   description  = "This is an App Engine IaP source that checks if IaP is not enabled for the App Engine service"
-  depends_on = [ module.asset-feed-cf ]
+  depends_on   = [module.asset-feed-cf]
 }

@@ -1,0 +1,4 @@
+organization_id = "12345678910"
+name = "app-engine-remediation"
+# folder_id = "236308829935" #Only needed in case of Folder remediation
+project_id = "insert-project-id"

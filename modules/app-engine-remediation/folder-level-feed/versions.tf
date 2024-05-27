@@ -4,7 +4,7 @@
 terraform {
   required_providers {
     google = {
-      source  = "hashicorp/google"
+      source = "hashicorp/google"
     }
     google-beta = {
       source = "hashicorp/google-beta"
@@ -15,11 +15,11 @@ terraform {
 provider "google" {
   # Configuration options
   user_project_override = true
-  billing_project = var.project_id
+  billing_project       = var.project_id
 }
 
 provider "google-beta" {
   # Configuration options
   user_project_override = true
-  billing_project = var.project_id
+  billing_project       = var.project_id
 }

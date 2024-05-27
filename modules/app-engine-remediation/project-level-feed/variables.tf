@@ -1,3 +1,8 @@
+variable "bundle_path" {
+  description = "Path used to write the intermediate Cloud Function code bundle."
+  type        = string
+  default     = "./bundle.zip"
+}
 
 variable "name" {
   description = "Arbitrary string used to name created resources."
@@ -21,14 +26,15 @@ variable "region" {
   default     = "us-central1"
 }
 
-variable "folder_id" {
-  description = "value of the folder id. Only required if creating a folder level feed."
-  type        = string
-  default     = ""
+variable "project_create" {
+  description = "Create project instead of using an existing one."
+  type        = bool
+  default     = false
 }
 
 variable "source_dir" {
   description = "value of the source dir where the Cloud function folder is"
   type        = string
-  default     = "./cf/app-engine-remediation/"
+  default     = "./cf"
 }
+

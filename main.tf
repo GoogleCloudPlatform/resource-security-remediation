@@ -14,13 +14,36 @@
  * limitations under the License.
  */
 
-module "asset-feed-remediation" {
-  source         = "./modules/app-engine-remediation"
-  folder_id = var.folder_id
-  project_id = var.project_id
+# Module to call organization-level-feed
+module "asset-feed-remediation-organization" {
+  source          = "./modules/app-engine-remediation/organization-level-feed"
+  project_id      = var.project_id
   organization_id = var.organization_id
-  name = var.name
-  region = var.region
-  source_dir = var.source_dir
+  name            = var.name
+  region          = var.region
+  source_dir      = var.source_dir
 }
+
+
+# Module to call folder-level-feed
+# module "asset-feed-remediation-folder" {
+#   source         = "./modules/app-engine-remediation/folder-level-feed"
+#   folder_id = var.folder_id #Only required when creating a folder level feed
+#   project_id = var.project_id
+#   organization_id = var.organization_id
+#   name = var.name
+#   region = var.region
+#   source_dir = var.source_dir
+# }
+
+# Module to call project-level-feed
+# module "asset-feed-remediation-project" {
+#   source         = "./modules/app-engine-remediation/project-level-feed"
+#   project_id = var.project_id
+#   organization_id = var.organization_id
+#   name = var.name
+#   region = var.region
+#   source_dir = var.source_dir
+# }
+
 

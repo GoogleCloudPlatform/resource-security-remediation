@@ -32,14 +32,9 @@ variable "project_create" {
   default     = false
 }
 
-variable "folder_id" {
-  description = "value of the folder id"
-  type = string
-}
-
 variable "source_dir" {
   description = "value of the source dir where the Cloud function folder is"
-  type = string
-  default = "./cf"
+  type        = string
+  default     = "./cf"
 }
 
