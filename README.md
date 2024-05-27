@@ -1,6 +1,5 @@
 # Using SCC Custom Findings and Asset Inventory Feeds to auto-remediate non-compliant GCP resources
 
-
 ## The problem
 
 At the time of this writing the capability to enforce settings to resources via organizational policies (both canned and custom) is limited to a list of asset types. Also from a detection point of view even when in addition to out of the box Security Command Center detectors we can implement Security Health Analytics custom modules the list of asset types supported doesn’t include some services like App Engine.
@@ -91,3 +90,16 @@ The codebase includes the following components:
 * [Organizational Policies](https://cloud.google.com/resource-manager/docs/organization-policy/overview)
 * [Security Health Analytics](https://cloud.google.com/security-command-center/docs/security-health-analytics/overview)
 
+## Copyright 2024 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
