@@ -14,7 +14,7 @@ The enforcement point will be set at the organization or folder level but can al
 
 This example Terraform and Python(Cloud Function) code demonstrates how to leverage a custom solution based on Cloud Asset Inventory feeds, Cloud Functions and Security Command Center to identify non-compliant GCP resources and auto-remediate it to make them compliant with a well defined security posture
 
-![image info](./pictures/image.png)
+![image info](./pictures/image-white.png)
 
 The example provided shows how to remediate App Engine services without IAP and change its ingress setting to Internal Only and create a custom findings published to SCC(The code can be extended to include more assets and custom remediation logic to cover a broader set of resources).
 
