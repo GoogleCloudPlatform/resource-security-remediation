@@ -71,7 +71,7 @@ module "asset-feed-remediation-project" {
 
 ## Test the solution
 
-XXX
+Create any non-compliant resource: App Engine without IAP
 
 ## Codebase
 
