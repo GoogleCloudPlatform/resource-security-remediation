@@ -1,4 +1,4 @@
-# Using SCC Custom Findings and Asset Inventory Feeds to auto-remediate non-compliant GCP resources
+# Using Security Command Center Custom Findings and Asset Inventory Feeds to auto-remediate non-compliant GCP resources
 
 ## The problem
 
